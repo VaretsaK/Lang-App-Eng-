@@ -1,3 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(upload_to="users/profile_pictures", null=True, blank=True)
+
+
+class UserExerciseAttempt(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    exercise = models.ForeignKey('lessons.Exercise', on_delete=models.CASCADE)
+    is_correct = models.BooleanField()
+    attempt_date = models.DateTimeField(auto_now_add=True)
