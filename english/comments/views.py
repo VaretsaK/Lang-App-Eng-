@@ -1,6 +1,15 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from comments.models import Comment
 
 
 def comment(request):
-    return HttpResponse("Comments here!")
+    all_comments = Comment.objects.all()
+    context = {
+        'comments': all_comments,
+        'title': 'All comments'
+    }
+    return render(request, 'comments/comments.html', context)
+
+
+def add_comment(request):
+    ...
