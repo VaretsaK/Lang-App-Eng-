@@ -1,10 +1,10 @@
 from django.db import models
-from ckeditor.fields import RichTextField
+from django_ckeditor_5.fields import CKEditor5Field
 
 
 class Lesson(models.Model):
     title = models.CharField(max_length=128)
-    content = RichTextField()
+    content = CKEditor5Field(config_name='extends')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -24,8 +24,8 @@ class Exercise(models.Model):
     ]
     exercise_type = models.CharField(max_length=20, choices=exercise_type_choices)
 
-    description = RichTextField()
-    content = RichTextField()
+    description = models.TextField()
+    content = CKEditor5Field(config_name='extends')
     correct_answer = models.CharField(max_length=200)
 
     created_at = models.DateTimeField(auto_now_add=True)

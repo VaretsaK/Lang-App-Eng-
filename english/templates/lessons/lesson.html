@@ -1,22 +1,29 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{lesson.title}}</h5>
-            <p> {{lesson.content | safe }}</p>
+    <div >
 
-          </div>
-          <div>
-              {% for exercise in exercises%}
-              <div class="card-body">
-                <h5 class="card-title">{{exercise.title}}</h5>
-                  <p> {{exercise.description | safe }}</p>
-                <p> {{exercise.content | safe }}</p>
-                <a href="#" class="btn btn-primary">Submit</a>
-              </div>
-          {% endfor %}
-          </div>
+        <div class="container-sm">
+            <h4 class="card-title">{{lesson.title}}</h4>
+            <p> {{lesson.content | safe }}</p>
+        </div>
+
+        <div>
+
+            {% for exercise in exercises %}
+
+                <div class="container-sm">
+                    <hr>
+                    <h5 class="card-title">{{exercise.title}}</h5>
+                    <p> {{exercise.description}}</p>
+                    <p> {{exercise.content | safe }}</p>
+                    <a href="#" class="btn btn-primary">Submit</a>
+                </div>
+
+            {% endfor %}
+
+        </div>
 
     </div>
+
 {% endblock %}

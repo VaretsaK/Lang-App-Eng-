@@ -26,6 +26,7 @@ urlpatterns = [
     path('users/', include("users.urls")),
     path('lessons/', include("lessons.urls")),
     path('comments/', include("comments.urls")),
+    path('ckeditor5/', include("django_ckeditor_5.urls")),
 ]
 
 if settings.DEBUG:
