@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'lessons.apps.LessonsConfig',
     'comments.apps.CommentsConfig',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [

@@ -1,9 +1,12 @@
 from django import forms
-from lessons.models import Lesson, Exercise
+from comments.models import Comment
 
 
-class CommentForm(forms.Form):
-    title = forms.CharField(max_length=128)
-    content = forms.CharField()
-    lesson = forms.ModelChoiceField(queryset=Lesson.objects.all())
-    exercise = forms.ModelChoiceField(queryset=Exercise.objects.all())
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['title', 'content']
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'content': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }

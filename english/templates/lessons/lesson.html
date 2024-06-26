@@ -4,14 +4,15 @@
     <div class="card">
           <div class="card-body">
             <h5 class="card-title">{{lesson.title}}</h5>
-            <p> {{lesson.content}}</p>
+            <p> {{lesson.content | safe }}</p>
 
           </div>
           <div>
               {% for exercise in exercises%}
               <div class="card-body">
                 <h5 class="card-title">{{exercise.title}}</h5>
-                <p> {{exercise.content}}</p>
+                  <p> {{exercise.description | safe }}</p>
+                <p> {{exercise.content | safe }}</p>
                 <a href="#" class="btn btn-primary">Submit</a>
               </div>
           {% endfor %}
