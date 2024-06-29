@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'lessons.apps.LessonsConfig',
     'comments.apps.CommentsConfig',
-    'django_ckeditor_5',
+    'django_ckeditor_5',  # ckeditor for editing text input in admin forms
 ]
 
 MIDDLEWARE = [
