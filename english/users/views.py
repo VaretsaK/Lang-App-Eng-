@@ -9,20 +9,19 @@ from django.contrib.auth.models import User
 def login(request):
     if request.method == "POST":
         form = LoginForm(request, data=request.POST)
-        if form.is_valid():
 
+        if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-
             user = auth.authenticate(username=username, password=password)
 
             if user is not None:
                 auth.login(request, user)
                 return redirect('lessons')
 
-            else:
-                messages.error(request, "Invalid username or password")
-                return redirect('signup')
+        else:
+            messages.error(request, "Invalid username or password")
+            return redirect('login')
     else:
         form = LoginForm()
 
