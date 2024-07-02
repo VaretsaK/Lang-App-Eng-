@@ -38,33 +38,28 @@ def logout(request):
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST, request.FILES)
+
         if form.is_valid():
-            if request.POST['password1'] == request.POST['password2']:
 
-                try:
-                    user = User.objects.get(username=form['username'])
-                    if user:
-                        messages.error(request, 'Username already exists!')
-                        return render(request, 'users/signup.html')
+            try:
+                user = User.objects.get(email=request.POST['email'])
+                if user:
+                    messages.error(request, 'This Email already exists!')
+                    return render(request, 'users/signup.html')
 
-                except User.DoesNotExist:
-                    user = User.objects.create_user(
-                        username=request.POST['username'],
-                        password=request.POST['password1'],
-                        email=request.POST['email']
-                    )
-                    # user.save()
-                    auth.login(request, user)
-                    user_profile = UserProfile.objects.create(
-                        user=user,  # or request.user TODO
-                        #profile_picture=form['profile_picture']
-                    )
-                    user_profile.save()
-                    return redirect('lessons')
-
-            else:
-                messages.error(request, 'Passwords should match')
-                return render(request, 'users/signup.html')
+            except User.DoesNotExist:
+                user = User.objects.create_user(
+                    username=request.POST['username'],
+                    password=request.POST['password1'],
+                    email=request.POST['email']
+                )
+                auth.login(request, user)
+                user_profile = UserProfile.objects.create(
+                    user=user,
+                    #profile_picture=form['profile_picture']
+                )
+                user_profile.save()
+                return redirect('lessons')
 
     else:
         form = SignUpForm()
