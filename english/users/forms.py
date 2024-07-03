@@ -16,14 +16,23 @@ class LoginForm(AuthenticationForm):
         }
 
 
-class SignUpForm(UserCreationForm):
+class UserProfileForm(forms.ModelForm):
     class Meta:
-        model = User   #, UserProfile
-        fields = ('username', 'email', 'password1', 'password2')  # TODO check ProfPic
+        model = UserProfile
+        fields = ('profile_picture',)
+        widgets = {
+            'profile_picture': forms.FileInput(attrs={'class': 'form-control'}),
+        }
+
+
+class UserForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
             'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            # 'profile_picture': forms.ImageField(attrs={'class': 'form-control'}),  # TODO check pic FileField
         }
+

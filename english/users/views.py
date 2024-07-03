@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
-from users.models import UserProfile
-from users.forms import LoginForm, SignUpForm
+from users.forms import LoginForm, UserForm, UserProfileForm
 
 from django.contrib import auth, messages
 from django.contrib.auth.models import User
@@ -36,33 +35,29 @@ def logout(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = SignUpForm(request.POST, request.FILES)
+        user_form = UserForm(request.POST)
+        profile_form = UserProfileForm(request.POST, request.FILES)
 
-        if form.is_valid():
-
+        if user_form.is_valid() and profile_form.is_valid():
             try:
-                user = User.objects.get(email=request.POST['email'])
+                user = User.objects.get(email=user_form.cleaned_data['email'])
                 if user:
                     messages.error(request, 'This Email already exists!')
                     return render(request, 'users/signup.html')
 
             except User.DoesNotExist:
-                user = User.objects.create_user(
-                    username=request.POST['username'],
-                    password=request.POST['password1'],
-                    email=request.POST['email']
-                )
-                auth.login(request, user)
-                user_profile = UserProfile.objects.create(
-                    user=user,
-                    #profile_picture=form['profile_picture']
-                )
+                user = user_form.save()
+                user_profile = profile_form.save(commit=False)
+                user_profile.user = user
                 user_profile.save()
+
+                auth.login(request, user)
                 return redirect('lessons')
 
     else:
-        form = SignUpForm()
+        user_form = UserForm()
+        profile_form = UserProfileForm()
 
-    return render(request, 'users/signup.html', {'form': form})
+    return render(request, 'users/signup.html', {'user_form': user_form, 'profile_form': profile_form})
 
 
