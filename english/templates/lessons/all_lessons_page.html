@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="card">
+          {% for lesson in lessons%}
+              <div class="card-body">
+                <h5 class="card-title">{{lesson.title}}</h5>
+                <a href="{% url 'study_lesson' lesson.pk%}" class="btn btn-primary">Study</a>
+              </div>
+          {% endfor %}
+
+    </div>
+{% endblock %}

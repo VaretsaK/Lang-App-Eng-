@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="card">
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{% url 'add_comment' %}" class="btn btn-primary">New comment</a></button>
+
+        </div>
+          {% for comment in comments %}
+              <div class="card-body">
+                <h5 class="card-title">{{comment.title}}</h5>
+                <p> {{comment.content}} </p>
+                <p> {{comment.created_at}} </p>
+                <a href="#" class="btn btn-primary">Answer</a>
+                <hr>
+              </div>
+          {% endfor %}
+
+    </div>
+{% endblock %}
