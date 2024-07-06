@@ -15,3 +15,8 @@ class UserExerciseAttempt(models.Model):
     exercise = models.ForeignKey('lessons.Exercise', on_delete=models.CASCADE)
     is_correct = models.BooleanField()
     attempt_date = models.DateTimeField(auto_now_add=True)
+
+
+class PhoneNumber(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    number = models.CharField(max_length=15)
