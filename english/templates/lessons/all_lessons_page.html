@@ -1,13 +1,28 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div class="card">
-          {% for lesson in lessons%}
-              <div class="card-body">
-                <h5 class="card-title">{{lesson.title}}</h5>
-                <a href="{% url 'study_lesson' lesson.pk%}" class="btn btn-primary">Study</a>
-              </div>
-          {% endfor %}
+    <div class="container">
 
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Select level
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Elementary</a></li>
+                <li><a class="dropdown-item" href="#">Pre-intermediate</a></li>
+                <li><a class="dropdown-item" href="#">Intermediate</a></li>
+            </ul>
+        </div>
+        <p></p>
+        <div class="card">
+
+            {% for lesson in lessons%}
+                <div class="card-body">
+                    <h5 class="card-title">{{lesson.title}}</h5>
+                    <a href="{% url 'study_lesson' lesson.pk%}" class="btn btn-primary">Study</a>
+                </div>
+            {% endfor %}
+
+        </div>
     </div>
 {% endblock %}

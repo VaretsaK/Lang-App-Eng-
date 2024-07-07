@@ -26,3 +26,7 @@ def study_lesson(request, lesson_id):
         'exercises': exercises_for_lesson,
     }
     return render(request, 'lessons/lesson.html', context)
+
+
+def levels(request):
+    ...
