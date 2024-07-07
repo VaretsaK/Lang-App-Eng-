@@ -1,7 +1,8 @@
 from django import forms
-from users.models import UserProfile
+from users.models import UserProfile, PhoneNumber
 
 from django.contrib.auth.models import User
+from django.forms import modelformset_factory
 
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
@@ -35,4 +36,17 @@ class UserForm(UserCreationForm):
             'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
             'email': forms.EmailInput(attrs={'class': 'form-control'}),
         }
+
+
+class PhoneNumberForm(forms.ModelForm):
+    class Meta:
+        model = PhoneNumber
+        fields = ('number',)
+        widgets = {
+            'number': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+
+PhoneNumberFormSet = modelformset_factory(
+    PhoneNumber, form=PhoneNumberForm, extra=1)
 

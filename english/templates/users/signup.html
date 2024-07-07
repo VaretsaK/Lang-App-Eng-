@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<style>
+    .hidden {
+        display: none
+    }
+</style>
+
 <section class="py-5 text-center container">
     <div class="row py-lg-5">
         <div class="col-lg-6 col-md-8 mx-auto">
@@ -33,6 +40,7 @@
                         </div>
                     <p></p>
                     {% endfor %}
+
                     {% for field in profile_form %}
                         <div class="row g-3">
                             <div class="col-sm-12">
@@ -49,11 +57,58 @@
                             </div>
                         </div>
                     {% endfor %}
+
+                    <div id="phone-number-form-list">
+                        <div id="number_form" class="hidden">
+                            <div class="phone-number-form">
+                                {{ number_formset }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="add-more-phone-number" type="button">Add Phone Number</button>
+
                     <hr class="my-4">
+
                     <button class="w-100 btn-primary btn-lg" type="submit">Sign Up</button>
+
                 </form>
+
             </div>
         </div>
     </div>
 </div>
+
+
+<script>
+    const addMoreBtn = document.getElementById("add-more-phone-number")
+    const totalNewForms = document.getElementById("id_form-TOTAL_FORMS")
+
+    addMoreBtn.addEventListener('click', add_new_form)
+
+    function add_new_form(event) {
+        if (event) {
+            event.preventDefault()
+        }
+        const currentNumberForms = document.getElementsByClassName("phone-number-form")
+        const currentFormCount = currentNumberForms.length
+        const formCopyTarget = document.getElementById("phone-number-form-list")
+
+        totalNewForms.setAttribute('value', currentFormCount + 2)
+
+        const copyEmptyFormEl = document.getElementById("number_form").cloneNode(true)
+        copyEmptyFormEl.setAttribute('class', 'col-sm-12')
+        copyEmptyFormEl.setAttribute('id', `form-${currentFormCount}`)
+
+        const regex = new RegExp('form-(\\d){1}-', 'g')
+
+        copyEmptyFormEl.innerHTML = copyEmptyFormEl.innerHTML.replace(regex, `form-${currentFormCount}-`)
+
+
+        formCopyTarget.append(copyEmptyFormEl)
+
+<!--        totalNewForms.setAttribute('value', currentFormCount + 2)-->
+    }
+</script>
+
 {% endblock %}
