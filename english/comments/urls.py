@@ -1,8 +1,8 @@
 from django.urls import path
 
-from .views import comment, add_comment
+from .views import CommentListView, add_comment
 
 urlpatterns = [
-    path('', comment, name="comment"),
+    path('', CommentListView.as_view(), name="comment"),
     path('add-comment/', add_comment, name="add_comment"),
 ]
