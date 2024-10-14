@@ -1,17 +1,19 @@
 from django.shortcuts import render
 from django.http import HttpResponseNotFound
 from lessons.models import Lesson, Exercise, DiffLevel
+from django.views.generic import ListView
 
 
-def lessons(request):
-    all_lessons = Lesson.objects.all()
-    levels = DiffLevel.objects.all()
-    context = {
-        'lessons': all_lessons,
-        'title': 'List of lessons',
-        'levels': levels
-    }
-    return render(request, 'lessons/all_lessons_page.html', context)
+class LessonListView(ListView):
+    model = Lesson
+    template_name = 'lessons/all_lessons_page.html'
+    context_object_name = 'lessons'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['levels'] = DiffLevel.objects.all()
+        context['title'] = 'List of lessons'
+        return context
 
 
 def study_lesson(request, lesson_id):
@@ -30,7 +32,7 @@ def study_lesson(request, lesson_id):
     return render(request, 'lessons/lesson.html', context)
 
 
-def levels(request, level_id):
+def d_levels(request, level_id):
     filtered_lessons = Lesson.objects.filter(diff_level__id=level_id)
     levels = DiffLevel.objects.all()
     context = {
