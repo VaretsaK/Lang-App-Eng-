@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from comments.models import Comment
 from comments.forms import CommentForm
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView
+from django.urls import reverse_lazy
 
 
 class CommentListView(ListView):
@@ -15,13 +16,11 @@ class CommentListView(ListView):
         return context
 
 
-def add_comment(request):
-    if request.method == 'POST':
-        form = CommentForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('comment')
-    else:
-        form = CommentForm()
-    return render(request, 'comments/create_comment.html', {'form': form})
+class AddCommentCreateView(CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = 'comments/create_comment.html'
+
+    def get_success_url(self):
+        return reverse_lazy('comment')
 
