@@ -2,18 +2,6 @@
 
 {% block content %}
     <div class="container">
-
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Select level
-            </button>
-            <ul class="dropdown-menu">
-                {% for level in levels %}
-                <li><a class="dropdown-item" href="{% url 'levels' level.pk %}">{{level.title}}</a></li>
-                {% endfor %}
-            </ul>
-        </div>
-        <p></p>
         <div class="card">
 
             {% for lesson in lessons%}
