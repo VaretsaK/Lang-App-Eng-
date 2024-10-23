@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponseNotFound
 from lessons.models import Lesson, Exercise, DiffLevel
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
+from django.db.models import Q
 
 
 class LessonListView(ListView):
@@ -16,21 +17,16 @@ class LessonListView(ListView):
         return context
 
 
-def study_lesson(request, lesson_id):
+class LessonDetailView(DetailView):
+    model = Lesson
+    template_name = 'lessons/lesson.html'
+    context_object_name = 'lesson'
 
-    try:
-        lesson_to_study = Lesson.objects.get(pk=lesson_id)
-    except Lesson.DoesNotExist:
-        return HttpResponseNotFound()
-
-    exercises_for_lesson = Exercise.objects.filter(lesson=lesson_to_study)
-    context = {
-        'lesson': lesson_to_study,
-        'title': 'Study the lesson',
-        'exercises': exercises_for_lesson,
-    }
-    return render(request, 'lessons/lesson.html', context)
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['exercises'] = Exercise.objects.filter(lesson=self.object)
+        context['title'] = 'Study the lesson'
+        return context
 
 def d_levels(request, level_id):
     filtered_lessons = Lesson.objects.filter(diff_level__id=level_id)
@@ -41,3 +37,23 @@ def d_levels(request, level_id):
         'levels': levels
     }
     return render(request, 'lessons/lessons_level.html', context)
+
+
+class SearchResultsView(ListView):
+    model = Lesson
+    template_name = 'lessons/search_results.html'
+    context_object_name = 'lessons'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['levels'] = DiffLevel.objects.all()
+        context['title'] = 'Lessons search results'
+        return context
+
+    def get_queryset(self):  # new
+        query = self.request.GET.get("user_input_search")
+        object_list = Lesson.objects.filter(
+            Q(title__icontains=query) | Q(diff_level__title__icontains=query)
+        )
+        return object_list

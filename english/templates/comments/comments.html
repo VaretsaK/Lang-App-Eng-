@@ -12,6 +12,8 @@
                 <p> {{comment.content}} </p>
                 <p> {{comment.created_at}} </p>
                 <a href="#" class="btn btn-primary">Answer</a>
+                <a href="{% url 'edit_comment' comment.pk%}" class="btn btn-primary">Edit</a>
+                <a href="{% url 'delete_comment' comment.pk%}" class="btn btn-primary">Delete</a>
                 <hr>
               </div>
           {% endfor %}
