@@ -10,6 +10,10 @@ class LessonListView(ListView):
     template_name = 'lessons/all_lessons_page.html'
     context_object_name = 'lessons'
 
+    def get_queryset(self):
+        query = super().get_queryset()
+        return query.select_related('diff_level')
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['levels'] = DiffLevel.objects.all()
